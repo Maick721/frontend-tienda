@@ -1,1 +1,141 @@
-<p>form works!</p>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">{{ titulo }}</h2>
+        </div>
+        <div class="card-body">
+          <!-- Mensajes de estado -->
+          <div *ngIf="status === 'success'" class="alert alert-success alert-dismissible fade show" role="alert">
+            ¡Producto guardado exitosamente!
+            <button type="button" class="btn-close" (click)="status = ''" aria-label="Close"></button>
+          </div>
+          <div *ngIf="status === 'error'" class="alert alert-danger alert-dismissible fade show" role="alert">
+            Error al guardar el producto. Intente nuevamente.
+            <button type="button" class="btn-close" (click)="status = ''" aria-label="Close"></button>
+          </div>
+
+          <!-- Formulario -->
+          <form #formulario="ngForm">
+            <!-- Marca -->
+            <div class="mb-3">
+              <label for="marca" class="form-label">Marca</label>
+              <input
+                type="text"
+                class="form-control"
+                id="marca"
+                name="marca"
+                [(ngModel)]="producto.marca"
+                placeholder="Ingrese la marca del producto"
+                required>
+            </div>
+
+            <!-- Modelo -->
+            <div class="mb-3">
+              <label for="modelo" class="form-label">Modelo</label>
+              <input
+                type="text"
+                class="form-control"
+                id="modelo"
+                name="modelo"
+                [(ngModel)]="producto.modelo"
+                placeholder="Ingrese el modelo del producto"
+                required>
+            </div>
+
+            <!-- RAM -->
+            <div class="mb-3">
+              <label for="ram" class="form-label">RAM</label>
+              <input
+                type="text"
+                class="form-control"
+                id="ram"
+                name="ram"
+                [(ngModel)]="producto.ram"
+                placeholder="Ej: 8GB, 16GB"
+                required>
+            </div>
+
+            <!-- ROM -->
+            <div class="mb-3">
+              <label for="rom" class="form-label">ROM</label>
+              <input
+                type="text"
+                class="form-control"
+                id="rom"
+                name="rom"
+                [(ngModel)]="producto.rom"
+                placeholder="Ej: 128GB, 256GB"
+                required>
+            </div>
+
+            <!-- Precio -->
+            <div class="mb-3">
+              <label for="precio" class="form-label">Precio</label>
+              <input
+                type="number"
+                class="form-control"
+                id="precio"
+                name="precio"
+                [(ngModel)]="producto.precio"
+                placeholder="Ingrese el precio"
+                required>
+            </div>
+
+            <!-- Imagen -->
+            <div class="mb-3">
+              <label for="imagen" class="form-label">Imagen</label>
+              <input
+                type="file"
+                class="form-control"
+                id="imagen"
+                name="imagen"
+                (change)="imagenChangeEvent($event)"
+                accept="image/*">
+              <small class="form-text text-muted">Seleccione una imagen para el producto</small>
+            </div>
+
+            <!-- Vista previa de imagen (si existe) -->
+            <div *ngIf="producto.imagen" class="mb-3">
+              <label class="form-label">Vista Previa</label>
+              <div>
+                <img
+                  [src]="url + 'get-imagen/' + producto.imagen"
+                  alt="Imagen del producto"
+                  class="img-thumbnail"
+                  style="max-width: 200px;">
+              </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="d-flex gap-2">
+              <button
+                *ngIf="titulo === 'Crear Producto'"
+                type="button"
+                class="btn btn-success"
+                (click)="guardarProducto()"
+                [disabled]="!formulario.valid">
+                Guardar Producto
+              </button>
+              <button
+                *ngIf="titulo === 'Editar Producto'"
+                type="button"
+                class="btn btn-warning"
+                (click)="actualizarProducto(formulario)"
+                [disabled]="!formulario.valid">
+                Actualizar Producto
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="formulario.reset(); status = ''">
+                Limpiar Formulario
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

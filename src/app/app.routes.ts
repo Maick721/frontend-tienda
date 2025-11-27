@@ -13,10 +13,10 @@ import { ContactanosComponent } from './components/contactanos/contactanos.compo
 
 
 export const routes: Routes = [
-    {path:'', redirectTo: 'home', pathMatch: 'full'},
+    {path:'', redirectTo: 'form', pathMatch: 'full'},
     {path: 'home', component: HomeComponent},
     {path: 'tienda', component: TiendaComponent},
-    {path: 'form', component: FormComponent},
+    {path: 'form/:id', loadComponent: () => import('./components/form/form.component').then(m => m.FormComponent)},
     {path: 'nav', component: NavComponent},
     {path: 'foot', component: FootComponent},
     {path: 'art1', component: Art1Component},
@@ -24,9 +24,5 @@ export const routes: Routes = [
     {path: 'productos', component: ProductosComponent},
     {path: 'crud', component: CrudComponent},
     {path: 'contactanos', component: ContactanosComponent},
-    { 
-        path: 'auth', loadChildren: () => import('./auth/features/auth.routes').then(m => m.default),
-    },
-    {path: '**', redirectTo: ''}
 ];
 //

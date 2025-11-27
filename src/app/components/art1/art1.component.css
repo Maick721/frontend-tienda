@@ -1,0 +1,18 @@
+
+ #carouselAki .carousel-item img {
+      height: 500px;       /* altura uniforme */
+      object-fit: cover;   /* recorta manteniendo proporción */
+      width: 100%;
+    }
+    .custom-arrow {
+      background: rgba(0,0,0,0.4);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .custom-arrow i {
+      pointer-events: none;
+    }
