@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-
+import { NavComponent } from '../nav/nav.component';
+import { Route, RouterLink } from "@angular/router";
 import { ProductoService } from '../../services/productos.service';
-import { CargarService } from '../../services/cargar.service';
-import { Producto } from '../../models/producto';
+import { FootComponent } from '../foot/foot.component';
 import { Global } from '../../services/global';
-import { ActivatedRoute, Router, Params, RouterModule } from '@angular/router';
-import { NgIf, NgFor, CommonModule } from '@angular/common';
+import { Producto } from '../../models/producto';
+import { NgForOf,NgIf } from '@angular/common';
+import { ActivatedRoute, Router,Params,RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { FormComponent } from '../form/form.component';
 
 @Component({
   selector: 'app-productos',
-  imports: [RouterModule, HttpClientModule, NgFor, NgIf, CommonModule, FormsModule, FormComponent],
-  standalone: true,
-  providers: [ProductoService, CargarService],
+  imports: [ NgIf, RouterLink, RouterModule, NgForOf],
+   standalone:true,
+   providers:[ProductoService],
   templateUrl: './productos.component.html',
+
   styleUrl: './productos.component.css'
 })
 export class ProductosComponent implements OnInit {
@@ -23,78 +23,65 @@ export class ProductosComponent implements OnInit {
   public url: string;
   public producto: Producto;
   public confirm: boolean;
-  public confirmProductoId: string;
 
   constructor(
-    private _productoService: ProductoService,
-    private _cargarService: CargarService,
+    private _productoService:ProductoService,
     private _router: Router,
     private _route: ActivatedRoute
-  ) {
-    this.url = Global.url;
-    this.productos = [];
-    // Inicializamos el producto con valores vacíos o por defecto
-    this.producto = new Producto('', '', '', '', '', 0, '');
-    this.confirm = false;
-    this.confirmProductoId = '';
-  }
 
+  ){
+    this.url=Global.url
+    this.productos=[];
+    this.producto= new Producto('', '','','','',1000,'');
+    this.confirm =false;
+
+  }
   ngOnInit(): void {
     this.getProductos();
-    this._route.params.subscribe((params: Params) => {
-      let id = params['id'];
-      if (id) {
+    this._route.params.subscribe(params =>{
+      let id= params['id'];
+      if(id){
         console.log(id);
         this.getProducto(id);
       }
     });
   }
-
-  getProductos() {
+  getProductos(){
     this._productoService.getProductos().subscribe(
-      response => {
-        console.log('Respuesta del servidor:', response);
-        if (response.productos) {
-          this.productos = response.productos;
-          console.log('Productos cargados:', this.productos);
-        } else if (Array.isArray(response)) {
-          // Si la respuesta es directamente un array
-          this.productos = response;
-          console.log('Productos cargados (array directo):', this.productos);
+      response=> {
+        if(response.productos){
+          this.productos= response.productos;
         }
       },
-      error => {
-        console.error('Error al cargar productos:', error);
-      }
-    );
-  }
-
-  getProducto(id: string) {
-    this._productoService.getProducto(id).subscribe(
-      response => {
-        this.producto = response.producto;
-      },
-      error => {
+      error=> {
         console.log(<any>error);
       }
     );
   }
 
-  setConfirm(productoId: string, confirm: boolean) {
-    this.confirmProductoId = productoId;
-    this.confirm = confirm;
+  getProducto(id:String){
+    this._productoService.getProducto(id).subscribe(
+      response=>{
+        this.producto= response.producto;
+      },
+      error=>{
+        console.log(<any>error);
+      }
+    );
   }
 
-  borrarProducto(id: string) {
+  setConfirm(confirm:boolean){
+    this.confirm= confirm;
+  }
+
+  borrarProducto(id:String){
     this._productoService.deleteProducto(id).subscribe(
-      response => {
-        if (response.producto) {
-          this.confirm = false;
-          this.confirmProductoId = '';
-          this.getProductos();
+      response=> {
+        if(response.producto){
+          this._router.navigate(['../productos']);
         }
       },
-      error => {
+      error=> {
         console.log(<any>error);
       }
     );

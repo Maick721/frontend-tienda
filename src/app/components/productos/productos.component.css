@@ -1,0 +1,60 @@
+/* Título principal */
+h1 {
+  font-weight: 700;
+  color: #0d6efd;
+}
+
+/* Tarjetas de producto */
+.producto .card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 0.75rem;
+}
+
+.producto .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Imagen dentro de la tarjeta */
+.card-img-top {
+  object-fit: cover;
+  height: 200px;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
+
+/* Títulos dentro de la tarjeta */
+.card-title {
+  font-size: 1.2rem;
+  color: #212529;
+}
+
+.card-subtitle {
+  font-size: 0.95rem;
+}
+
+/* Botones */
+.btn {
+  min-width: 90px;
+}
+
+.btn-outline-warning:hover {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Confirmación de borrado */
+.confirm {
+  font-weight: 500;
+  color: #856404;
+}
+
+.alert-warning {
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
